@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="3.1"
+             xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence
+             https://jakarta.ee/xml/ns/persistence/persistence_3_1.xsd">
+
+    <!--
+        persistence-unit - основная единица конфигурации.
+        name - произвольное имя (будет использоваться в Java-коде).
+        transaction-type - тип транзакций (RESOURCE_LOCAL для обычных приложений).
+    -->
+    <persistence-unit name="cinescopePersistenceUnit" transaction-type="RESOURCE_LOCAL">
+
+        <!-- Указываем, что используем Hibernate как реализацию JPA -->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <!-- Вручную перечисляем все Entity-классы -->
+        <class>ru.cinescope.db.domain.Genres</class>
+        <class>ru.cinescope.db.domain.Movies</class>
+
+        <properties>
+
+            <property name="jakarta.persistence.jdbc.driver"
+                      value="org.postgresql.Driver"/>
+
+            <property name="jakarta.persistence.jdbc.url"
+                      value="jdbc:postgresql://147.45.143.178:32200/db_movies"/>
+
+            <property name="jakarta.persistence.jdbc.user"
+                      value="test"/>
+
+            <property name="jakarta.persistence.jdbc.password"
+                      value="test"/>
+
+
+            <property name="hibernate.dialect"
+                      value="org.hibernate.dialect.PostgreSQLDialect"/>
+
+
+            <property name="hibernate.hbm2ddl.auto"
+                      value="update"/>
+
+            <!-- Показывать SQL-запросы в консоли (true/false) -->
+            <property name="hibernate.show_sql"
+                      value="true"/>
+
+            <!-- Форматировать SQL для удобного чтения (true/false) -->
+            <property name="hibernate.format_sql"
+                      value="true"/>
+
+            <!-- Дополнительно: кодировка (рекомендуется для PostgreSQL) -->
+            <property name="hibernate.connection.characterEncoding"
+                      value="UTF-8"/>
+            <!-- Логирование SQL -->
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
+
+            <!-- Детальное логирование параметров -->
+            <property name="hibernate.generate_statistics" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>
