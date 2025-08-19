@@ -2,6 +2,7 @@ plugins {
     id("java")
     id("io.freefair.lombok") version "8.14"
     kotlin("jvm") version "1.9.22"  // Kotlin для build-скрипта
+    id("io.qameta.allure") version "2.12.0"
 }
 
 group = "org.example"
@@ -57,6 +58,10 @@ dependencies {
     // Логирование (Hibernate использует SLF4J)
     implementation("org.slf4j:slf4j-api:2.0.12")
     implementation("ch.qos.logback:logback-classic:1.4.14")  // Реализация Logback
+    testImplementation("io.qameta.allure:allure-junit5:2.29.1")
+    testImplementation("io.qameta.allure:allure-assertj:2.29.1")
+    testImplementation("io.qameta.allure:allure-junit5:2.29.1")
+    implementation("io.qameta.allure:allure-assertj:2.29.1")
 }
 
 tasks.test {

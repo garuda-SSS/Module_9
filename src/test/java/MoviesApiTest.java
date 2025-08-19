@@ -1,19 +1,22 @@
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.cinescope.api.dto.AuthRequest;
 import ru.cinescope.api.dto.AuthResponse;
 import ru.cinescope.api.dto.MovieRequest;
 import ru.cinescope.api.dto.MovieResponse;
-import ru.cinescope.api.spec.AuthSpec;
-import ru.cinescope.api.spec.MovieSpec;
+import ru.cinescope.api.steps.MovieSteps;
+import ru.cinescope.api.steps.UserSteps;
+import ru.cinescope.db.domain.Movies;
+import ru.cinescope.db.repository.MoviesRepository;
 
-import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MoviesApiTest {
 
-    AuthRequest admin = AuthRequest.builder().email("test-admin@mail.com").password("KcLMmxkJMjBD1").build();
+    private static UserSteps userSteps = new UserSteps();
+    private static MovieSteps movieSteps = new MovieSteps();
     private static AuthResponse adminUser;
+    private static MoviesRepository repository;
     MovieRequest testFilm = MovieRequest.builder()
             .name("Тестовый5")
             .imageUrl("https://imgur.com/a/yqbh2nE")
@@ -24,62 +27,44 @@ public class MoviesApiTest {
             .genreId(3)
             .build();
 
-    @BeforeEach
-    public void takeAdminUser() {
-         adminUser = given()
-                .spec(AuthSpec.baseRequestSpec())
-                .body(admin)
-                .when()
-                .post("/login")
-                .then()
-                .log().all()
-                .extract()
-                .as(AuthResponse.class);
+    @BeforeAll
+    public static void takeAdminUser() {
+         adminUser = userSteps.userEnter("test-admin@mail.com","KcLMmxkJMjBD1");
+         repository = new MoviesRepository();
     }
 
     @Test
+    @DisplayName("Тест поиска фильма по ID")
     public void filmById() {
-        MovieResponse film = given()
-                .spec(MovieSpec.baseRequestSpec())
-                .pathParam("id",1)
-                .header("Authorization", "Bearer " + adminUser.getAccessToken())
-                .when()
-                .get("/movies/{id}")
-                .then()
-                .spec(MovieSpec.jsonSuccess())
-                .log().all()
-                .extract().as(MovieResponse.class);
+        MovieResponse film = movieSteps.findMovieById(1,adminUser);
+        Movies filmFromDB = repository.findById(1);
 
-        assertEquals("Экспресс Бобрихино - Попускалово", film.getName());
-        assertEquals(345, film.getPrice());
+        assertEquals(filmFromDB.getName(), film.getName());
+        assertEquals(filmFromDB.getPrice(), film.getPrice());
     }
 
     @Test
+    @DisplayName("Тест публикации фильма")
     public void createFilm() {
-        MovieResponse filmPublished = given()
-                .spec(MovieSpec.baseRequestSpec())
-                .body(testFilm)
-                .header("Authorization", "Bearer " + adminUser.getAccessToken())
-                .when()
-                .post("/movies")
-                .then()
-                .spec(MovieSpec.createSuccess())
-                .log().all()
-                .extract().as(MovieResponse.class);
+        MovieResponse filmPublished = movieSteps.createMovie(adminUser,testFilm);
+        Movies filmFromDB = repository.findById(filmPublished.getId());
 
+
+        //Сравнили отправленный фильм и ответ по АПИ
         assertEquals(testFilm.getName(), filmPublished.getName());
         assertEquals(testFilm.getPrice(), filmPublished.getPrice());
         assertEquals(testFilm.getImageUrl(), filmPublished.getImageUrl());
         assertEquals(testFilm.getLocation(), filmPublished.getLocation());
         assertEquals(testFilm.getGenreId(), filmPublished.getGenreId());
 
-        given()
-                .spec(MovieSpec.baseRequestSpec())
-                .pathParam("id",filmPublished.getId())
-                .header("Authorization", "Bearer " + adminUser.getAccessToken())
-                .when()
-                .delete("/movies/{id}")
-                .then()
-                .spec(MovieSpec.jsonSuccess());
+        //Сравнили ответ по АПИ и то, что легло в БД
+        assertEquals(filmFromDB.getName(), filmPublished.getName());
+        assertEquals(filmFromDB.getPrice(), filmPublished.getPrice());
+        assertEquals(filmFromDB.getImage_url(), filmPublished.getImageUrl());
+        assertEquals(filmFromDB.getLocation(), filmPublished.getLocation());
+        assertEquals(filmFromDB.getGenre_id(), filmPublished.getGenreId());
+
+
+        movieSteps.deleteMovie(filmPublished.getId(),adminUser);
     }
 }

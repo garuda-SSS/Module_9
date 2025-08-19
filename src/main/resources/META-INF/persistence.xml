@@ -16,7 +16,6 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <!-- Вручную перечисляем все Entity-классы -->
-        <class>ru.cinescope.db.domain.Genres</class>
         <class>ru.cinescope.db.domain.Movies</class>
 
         <properties>
