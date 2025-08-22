@@ -21,7 +21,6 @@ dependencies {
     testImplementation("org.assertj:assertj-core:4.0.0-M1")
     implementation("io.rest-assured:rest-assured:5.5.5")
     annotationProcessor("org.projectlombok:lombok:1.18.38")
-    testImplementation("io.rest-assured:rest-assured:5.4.0")
     testImplementation("io.rest-assured:json-path:5.4.0")
     testImplementation("io.rest-assured:xml-path:5.4.0")
     testImplementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
@@ -49,8 +48,6 @@ dependencies {
     // Hibernate (реализация JPA)
     implementation("org.hibernate:hibernate-core:6.4.4.Final")
 
-    // Драйвер БД (PostgreSQL)
-    implementation("org.postgresql:postgresql:42.7.2")
 
     // HikariCP (пул соединений, опционально)
     implementation("com.zaxxer:HikariCP:5.1.0")

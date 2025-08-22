@@ -13,15 +13,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MovieResponse {
-    private int id;
+    private Integer id;
     private String name;
-    private int price;
+    private Integer price;
     private String description;
     private String imageUrl;
     private String location;
-    private boolean published;
-    private float rating;
-    private int genreId;
+    private Boolean published;
+    private Float rating;
+    private Integer genreId;
     private Instant createdAt;
     private List<Reviews> reviews;
     private Genre genre;

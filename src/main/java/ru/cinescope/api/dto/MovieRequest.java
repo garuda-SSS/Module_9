@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 public class MovieRequest {
     private String name;
     private String imageUrl;
-    private int price;
+    private Integer price;
     private String description;
     private String location ;
-    private boolean published;
-    private int genreId;
+    private Boolean published;
+    private Integer genreId;
 }

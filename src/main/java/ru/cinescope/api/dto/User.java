@@ -17,6 +17,6 @@ public class User {
     private String fullName;
     private Instant createdAt;
     private String[] roles;
-    private boolean verified;
-    private boolean banned;
+    private Boolean verified;
+    private Boolean banned;
 }

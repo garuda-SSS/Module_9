@@ -1,6 +1,5 @@
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import io.qameta.allure.Allure;
+import org.junit.jupiter.api.*;
 import ru.cinescope.api.dto.AuthResponse;
 import ru.cinescope.api.dto.MovieRequest;
 import ru.cinescope.api.dto.MovieResponse;
@@ -16,6 +15,7 @@ public class MoviesApiTest {
     private static UserSteps userSteps = new UserSteps();
     private static MovieSteps movieSteps = new MovieSteps();
     private static AuthResponse adminUser;
+    private static MovieResponse lastCreatedFilm;
     private static MoviesRepository repository;
     MovieRequest testFilm = MovieRequest.builder()
             .name("Тестовый5")
@@ -33,6 +33,24 @@ public class MoviesApiTest {
          repository = new MoviesRepository();
     }
 
+    @AfterAll
+    public static void closeFabric() {
+        repository.close();
+    }
+
+    @AfterEach
+    public void cleanup() {
+        if (lastCreatedFilm != null) {
+            try {
+                movieSteps.deleteMovie(lastCreatedFilm.getId(), adminUser);
+                lastCreatedFilm = null;
+            } catch (Exception e) {
+                // Логируем ошибку, но не падаем
+                System.out.println("Ошибка при очистке: " + e.getMessage());
+            }
+        }
+    }
+
     @Test
     @DisplayName("Тест поиска фильма по ID")
     public void filmById() {
@@ -46,25 +64,26 @@ public class MoviesApiTest {
     @Test
     @DisplayName("Тест публикации фильма")
     public void createFilm() {
-        MovieResponse filmPublished = movieSteps.createMovie(adminUser,testFilm);
-        Movies filmFromDB = repository.findById(filmPublished.getId());
+
+        lastCreatedFilm = movieSteps.createMovie(adminUser, testFilm);
+        Movies filmFromDB = repository.findById(lastCreatedFilm.getId());
 
 
         //Сравнили отправленный фильм и ответ по АПИ
-        assertEquals(testFilm.getName(), filmPublished.getName());
-        assertEquals(testFilm.getPrice(), filmPublished.getPrice());
-        assertEquals(testFilm.getImageUrl(), filmPublished.getImageUrl());
-        assertEquals(testFilm.getLocation(), filmPublished.getLocation());
-        assertEquals(testFilm.getGenreId(), filmPublished.getGenreId());
-
+        Allure.step("Сравнили переданный фильм и фильм из ответа сервера", () -> {
+        assertEquals(testFilm.getName(), lastCreatedFilm.getName());
+        assertEquals(testFilm.getPrice(), lastCreatedFilm.getPrice());
+        assertEquals(testFilm.getImageUrl(), lastCreatedFilm.getImageUrl());
+        assertEquals(testFilm.getLocation(), lastCreatedFilm.getLocation());
+        assertEquals(testFilm.getGenreId(), lastCreatedFilm.getGenreId());
+        });
         //Сравнили ответ по АПИ и то, что легло в БД
-        assertEquals(filmFromDB.getName(), filmPublished.getName());
-        assertEquals(filmFromDB.getPrice(), filmPublished.getPrice());
-        assertEquals(filmFromDB.getImage_url(), filmPublished.getImageUrl());
-        assertEquals(filmFromDB.getLocation(), filmPublished.getLocation());
-        assertEquals(filmFromDB.getGenre_id(), filmPublished.getGenreId());
-
-
-        movieSteps.deleteMovie(filmPublished.getId(),adminUser);
+        Allure.step("Проверили, что в БД создалась запись с верными данными", () -> {
+        assertEquals(filmFromDB.getName(), lastCreatedFilm.getName());
+        assertEquals(filmFromDB.getPrice(), lastCreatedFilm.getPrice());
+        assertEquals(filmFromDB.getImageUrl(), lastCreatedFilm.getImageUrl());
+        assertEquals(filmFromDB.getLocation(), lastCreatedFilm.getLocation());
+        assertEquals(filmFromDB.getGenreId(), lastCreatedFilm.getGenreId());
+        });
     }
 }

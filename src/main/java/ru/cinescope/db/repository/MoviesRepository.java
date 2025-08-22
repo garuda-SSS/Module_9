@@ -4,8 +4,6 @@ package ru.cinescope.db.repository;
 import jakarta.persistence.*;
 import ru.cinescope.db.domain.Movies;
 
-import java.util.List;
-
 public class MoviesRepository {
     private final EntityManagerFactory emf;
 

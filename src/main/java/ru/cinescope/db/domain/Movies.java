@@ -14,23 +14,23 @@ import java.time.LocalDateTime;
 public class Movies {
     @Id
     @Column
-    private int id;
+    private Integer id;
     @Column
     private String name;
     @Column
-    private int price;
+    private Integer price;
     @Column
     private String description;
-    @Column
-    private String image_url;
+    @Column(name = "image_url")
+    private String imageUrl;
     @Column
     private String location;
     @Column
-    private boolean published;
+    private Boolean published;
     @Column
-    private float rating;
-    @Column
-    private int genre_id;
-    @Column
-    private LocalDateTime created_at;
+    private Float rating;
+    @Column(name = "genre_id")
+    private Integer genreId;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 }

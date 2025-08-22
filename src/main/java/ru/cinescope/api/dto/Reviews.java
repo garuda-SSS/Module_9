@@ -14,8 +14,8 @@ import java.time.Instant;
 public class Reviews {
     private String userId;
     private String text;
-    private int rating;
+    private Integer rating;
     private Instant createdAt; // Используем Instant для ISO-формата
-    private boolean hidden;
+    private Boolean hidden;
     private ReviewUser user; // Вложенный DTO для пользователя
 }
