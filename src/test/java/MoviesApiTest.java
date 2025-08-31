@@ -12,8 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MoviesApiTest {
 
-    private static UserSteps userSteps = new UserSteps();
-    private static MovieSteps movieSteps = new MovieSteps();
+    private static final UserSteps userSteps = new UserSteps();
+    private static final MovieSteps movieSteps = new MovieSteps();
     private static AuthResponse adminUser;
     private static MovieResponse lastCreatedFilm;
     private static MoviesRepository repository;

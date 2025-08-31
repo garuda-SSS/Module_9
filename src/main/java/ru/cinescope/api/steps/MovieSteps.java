@@ -7,7 +7,7 @@ import ru.cinescope.api.dto.MovieRequest;
 import ru.cinescope.api.dto.MovieResponse;
 
 public class MovieSteps {
-    private MovieClient movie = new MovieClient();
+    private final MovieClient movie = new MovieClient();
 
     @Step("Ищем фильм по ID")
     public MovieResponse findMovieById(int movieId, AuthResponse user){
