@@ -1,5 +1,9 @@
 import io.qameta.allure.Allure;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import ru.cinescope.api.dto.AuthResponse;
 import ru.cinescope.api.dto.MovieRequest;
 import ru.cinescope.api.dto.MovieResponse;
@@ -17,7 +21,7 @@ public class MoviesApiTest {
     private static AuthResponse adminUser;
     private static MovieResponse lastCreatedFilm;
     private static MoviesRepository repository;
-    MovieRequest testFilm = MovieRequest.builder()
+    private final MovieRequest testFilm = MovieRequest.builder()
             .name("Тестовый5")
             .imageUrl("https://imgur.com/a/yqbh2nE")
             .price(100)
@@ -29,7 +33,7 @@ public class MoviesApiTest {
 
     @BeforeAll
     public static void takeAdminUser() {
-        adminUser = userSteps.userEnter("test-admin@mail.com", "KcLMmxkJMjBD1");
+        adminUser = userSteps.userLogin("test-admin@mail.com", "KcLMmxkJMjBD1");
         repository = new MoviesRepository();
     }
 

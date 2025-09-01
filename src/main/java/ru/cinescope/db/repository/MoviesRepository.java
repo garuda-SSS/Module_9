@@ -1,7 +1,9 @@
 package ru.cinescope.db.repository;
 
 
-import jakarta.persistence.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import ru.cinescope.db.domain.Movies;
 
 public class MoviesRepository {
