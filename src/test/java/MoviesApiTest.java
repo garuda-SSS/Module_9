@@ -29,8 +29,8 @@ public class MoviesApiTest {
 
     @BeforeAll
     public static void takeAdminUser() {
-         adminUser = userSteps.userEnter("test-admin@mail.com","KcLMmxkJMjBD1");
-         repository = new MoviesRepository();
+        adminUser = userSteps.userEnter("test-admin@mail.com", "KcLMmxkJMjBD1");
+        repository = new MoviesRepository();
     }
 
     @AfterAll
@@ -54,7 +54,7 @@ public class MoviesApiTest {
     @Test
     @DisplayName("Тест поиска фильма по ID")
     public void filmById() {
-        MovieResponse film = movieSteps.findMovieById(1,adminUser);
+        MovieResponse film = movieSteps.findMovieById(1, adminUser);
         Movies filmFromDB = repository.findById(1);
 
         assertEquals(filmFromDB.getName(), film.getName());
@@ -71,19 +71,19 @@ public class MoviesApiTest {
 
         //Сравнили отправленный фильм и ответ по АПИ
         Allure.step("Сравнили переданный фильм и фильм из ответа сервера", () -> {
-        assertEquals(testFilm.getName(), lastCreatedFilm.getName());
-        assertEquals(testFilm.getPrice(), lastCreatedFilm.getPrice());
-        assertEquals(testFilm.getImageUrl(), lastCreatedFilm.getImageUrl());
-        assertEquals(testFilm.getLocation(), lastCreatedFilm.getLocation());
-        assertEquals(testFilm.getGenreId(), lastCreatedFilm.getGenreId());
+            assertEquals(testFilm.getName(), lastCreatedFilm.getName());
+            assertEquals(testFilm.getPrice(), lastCreatedFilm.getPrice());
+            assertEquals(testFilm.getImageUrl(), lastCreatedFilm.getImageUrl());
+            assertEquals(testFilm.getLocation(), lastCreatedFilm.getLocation());
+            assertEquals(testFilm.getGenreId(), lastCreatedFilm.getGenreId());
         });
         //Сравнили ответ по АПИ и то, что легло в БД
         Allure.step("Проверили, что в БД создалась запись с верными данными", () -> {
-        assertEquals(filmFromDB.getName(), lastCreatedFilm.getName());
-        assertEquals(filmFromDB.getPrice(), lastCreatedFilm.getPrice());
-        assertEquals(filmFromDB.getImageUrl(), lastCreatedFilm.getImageUrl());
-        assertEquals(filmFromDB.getLocation(), lastCreatedFilm.getLocation());
-        assertEquals(filmFromDB.getGenreId(), lastCreatedFilm.getGenreId());
+            assertEquals(filmFromDB.getName(), lastCreatedFilm.getName());
+            assertEquals(filmFromDB.getPrice(), lastCreatedFilm.getPrice());
+            assertEquals(filmFromDB.getImageUrl(), lastCreatedFilm.getImageUrl());
+            assertEquals(filmFromDB.getLocation(), lastCreatedFilm.getLocation());
+            assertEquals(filmFromDB.getGenreId(), lastCreatedFilm.getGenreId());
         });
     }
 }

@@ -5,11 +5,11 @@ import io.restassured.specification.RequestSpecification;
 
 public class AuthSpec {
 
-        public static RequestSpecification baseRequestSpec() {
-            return new RequestSpecBuilder()
-                    .setBaseUri("https://auth.cinescope.t-qa.ru")
-                    .setContentType("application/json")
-                    .setAccept("application/json")
-                    .build();
-        }
+    public static RequestSpecification baseRequestSpec() {
+        return new RequestSpecBuilder()
+                .setBaseUri("https://auth.cinescope.t-qa.ru")
+                .setContentType("application/json")
+                .setAccept("application/json")
+                .build();
+    }
 }

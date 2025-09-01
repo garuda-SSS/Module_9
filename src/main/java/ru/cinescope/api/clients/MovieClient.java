@@ -38,7 +38,7 @@ public class MovieClient {
     public void deleteMovie(int movieId, AuthResponse user) {
         given()
                 .spec(MovieSpec.baseRequestSpec())
-                .pathParam("id",movieId)
+                .pathParam("id", movieId)
                 .header("Authorization", "Bearer " + user.getAccessToken())
                 .when()
                 .delete("/movies/{id}")
