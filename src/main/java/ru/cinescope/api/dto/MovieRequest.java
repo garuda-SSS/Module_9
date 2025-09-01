@@ -14,7 +14,7 @@ public class MovieRequest {
     private String imageUrl;
     private Integer price;
     private String description;
-    private String location ;
+    private String location;
     private Boolean published;
     private Integer genreId;
 }

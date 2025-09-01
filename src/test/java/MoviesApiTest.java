@@ -1,5 +1,9 @@
 import io.qameta.allure.Allure;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import ru.cinescope.api.dto.AuthResponse;
 import ru.cinescope.api.dto.MovieRequest;
 import ru.cinescope.api.dto.MovieResponse;
@@ -12,12 +16,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MoviesApiTest {
 
-    private static UserSteps userSteps = new UserSteps();
-    private static MovieSteps movieSteps = new MovieSteps();
+    private static final UserSteps userSteps = new UserSteps();
+    private static final MovieSteps movieSteps = new MovieSteps();
     private static AuthResponse adminUser;
     private static MovieResponse lastCreatedFilm;
     private static MoviesRepository repository;
-    MovieRequest testFilm = MovieRequest.builder()
+    private final MovieRequest testFilm = MovieRequest.builder()
             .name("Тестовый5")
             .imageUrl("https://imgur.com/a/yqbh2nE")
             .price(100)
@@ -29,8 +33,8 @@ public class MoviesApiTest {
 
     @BeforeAll
     public static void takeAdminUser() {
-         adminUser = userSteps.userEnter("test-admin@mail.com","KcLMmxkJMjBD1");
-         repository = new MoviesRepository();
+        adminUser = userSteps.userLogin("test-admin@mail.com", "KcLMmxkJMjBD1");
+        repository = new MoviesRepository();
     }
 
     @AfterAll
@@ -54,7 +58,7 @@ public class MoviesApiTest {
     @Test
     @DisplayName("Тест поиска фильма по ID")
     public void filmById() {
-        MovieResponse film = movieSteps.findMovieById(1,adminUser);
+        MovieResponse film = movieSteps.findMovieById(1, adminUser);
         Movies filmFromDB = repository.findById(1);
 
         assertEquals(filmFromDB.getName(), film.getName());
@@ -71,19 +75,19 @@ public class MoviesApiTest {
 
         //Сравнили отправленный фильм и ответ по АПИ
         Allure.step("Сравнили переданный фильм и фильм из ответа сервера", () -> {
-        assertEquals(testFilm.getName(), lastCreatedFilm.getName());
-        assertEquals(testFilm.getPrice(), lastCreatedFilm.getPrice());
-        assertEquals(testFilm.getImageUrl(), lastCreatedFilm.getImageUrl());
-        assertEquals(testFilm.getLocation(), lastCreatedFilm.getLocation());
-        assertEquals(testFilm.getGenreId(), lastCreatedFilm.getGenreId());
+            assertEquals(testFilm.getName(), lastCreatedFilm.getName());
+            assertEquals(testFilm.getPrice(), lastCreatedFilm.getPrice());
+            assertEquals(testFilm.getImageUrl(), lastCreatedFilm.getImageUrl());
+            assertEquals(testFilm.getLocation(), lastCreatedFilm.getLocation());
+            assertEquals(testFilm.getGenreId(), lastCreatedFilm.getGenreId());
         });
         //Сравнили ответ по АПИ и то, что легло в БД
         Allure.step("Проверили, что в БД создалась запись с верными данными", () -> {
-        assertEquals(filmFromDB.getName(), lastCreatedFilm.getName());
-        assertEquals(filmFromDB.getPrice(), lastCreatedFilm.getPrice());
-        assertEquals(filmFromDB.getImageUrl(), lastCreatedFilm.getImageUrl());
-        assertEquals(filmFromDB.getLocation(), lastCreatedFilm.getLocation());
-        assertEquals(filmFromDB.getGenreId(), lastCreatedFilm.getGenreId());
+            assertEquals(filmFromDB.getName(), lastCreatedFilm.getName());
+            assertEquals(filmFromDB.getPrice(), lastCreatedFilm.getPrice());
+            assertEquals(filmFromDB.getImageUrl(), lastCreatedFilm.getImageUrl());
+            assertEquals(filmFromDB.getLocation(), lastCreatedFilm.getLocation());
+            assertEquals(filmFromDB.getGenreId(), lastCreatedFilm.getGenreId());
         });
     }
 }

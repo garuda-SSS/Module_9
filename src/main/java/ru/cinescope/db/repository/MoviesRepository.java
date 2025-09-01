@@ -1,7 +1,9 @@
 package ru.cinescope.db.repository;
 
 
-import jakarta.persistence.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import ru.cinescope.db.domain.Movies;
 
 public class MoviesRepository {
@@ -12,11 +14,8 @@ public class MoviesRepository {
     }
 
     public Movies findById(int id) {
-        EntityManager em = emf.createEntityManager();
-        try {
+        try (EntityManager em = emf.createEntityManager()) {
             return em.find(Movies.class, id);
-        } finally {
-            em.close();
         }
     }
 
@@ -25,34 +24,4 @@ public class MoviesRepository {
             emf.close();
         }
     }
-
-    public Movies findByName(String name) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            TypedQuery<Movies> query = em.createQuery(
-                    "SELECT g FROM Movies g WHERE g.name = :name", Movies.class);
-            query.setParameter("name", name);
-            return query.getSingleResult(); // или getResultList() для нескольких
-        } catch (NoResultException e) {
-            return null; // если не найдено
-        } finally {
-            em.close();
-        }
-    }
-
-
-    public Movies findByDescription(String description) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            TypedQuery<Movies> query = em.createQuery(
-                    "SELECT g FROM Movies g WHERE g.description = :description", Movies.class);
-            query.setParameter("description", description);
-            return query.getSingleResult(); // или getResultList() для нескольких
-        } catch (NoResultException e) {
-            return null; // если не найдено
-        } finally {
-            em.close();
-        }
-    }
-
 }
