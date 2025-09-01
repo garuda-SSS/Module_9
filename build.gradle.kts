@@ -4,6 +4,7 @@ plugins {
     kotlin("jvm") version "1.9.22"  // Kotlin для build-скрипта
     id("io.qameta.allure") version "2.12.0"
     id ("maven-publish")
+    `maven-publish`                // Плагин для публикации
 }
 
 group = "org.example"
@@ -64,4 +65,12 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"]) // <- Всё ещё работает для Kotlin JVM!
+        }
+    }
 }
