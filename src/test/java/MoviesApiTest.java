@@ -4,9 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.cinescope.api.dto.AuthResponse;
-import ru.cinescope.api.dto.MovieRequest;
-import ru.cinescope.api.dto.MovieResponse;
+import ru.cinescope.api.dto.*;
 import ru.cinescope.api.steps.MovieSteps;
 import ru.cinescope.api.steps.UserSteps;
 import ru.cinescope.db.domain.Movies;
@@ -64,6 +62,7 @@ public class MoviesApiTest {
         assertEquals(filmFromDB.getName(), film.getName());
         assertEquals(filmFromDB.getPrice(), film.getPrice());
     }
+
 
     @Test
     @DisplayName("Тест публикации фильма")

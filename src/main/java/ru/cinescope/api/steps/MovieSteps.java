@@ -2,9 +2,7 @@ package ru.cinescope.api.steps;
 
 import io.qameta.allure.Step;
 import ru.cinescope.api.clients.MovieClient;
-import ru.cinescope.api.dto.AuthResponse;
-import ru.cinescope.api.dto.MovieRequest;
-import ru.cinescope.api.dto.MovieResponse;
+import ru.cinescope.api.dto.*;
 
 public class MovieSteps {
     private final MovieClient movie = new MovieClient();
@@ -22,5 +20,15 @@ public class MovieSteps {
     @Step("Удаляем фильм")
     public void deleteMovie(int movieId, AuthResponse user) {
         movie.deleteMovie(movieId, user);
+    }
+
+    @Step("Удаляем комментарий")
+    public void deleteComment(int movieId, AuthResponse user) {
+        movie.deleteComment(movieId, user);
+    }
+
+    @Step("Создаем комментарий")
+    public Reviews createComment(int movieId, AuthResponse user, ReviewsForPost comment) {
+        return movie.createComment(movieId, user, comment);
     }
 }

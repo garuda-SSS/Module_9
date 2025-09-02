@@ -1,8 +1,6 @@
 package ru.cinescope.api.clients;
 
-import ru.cinescope.api.dto.AuthResponse;
-import ru.cinescope.api.dto.MovieRequest;
-import ru.cinescope.api.dto.MovieResponse;
+import ru.cinescope.api.dto.*;
 import ru.cinescope.api.spec.MovieSpec;
 
 import static io.restassured.RestAssured.given;
@@ -45,4 +43,30 @@ public class MovieClient {
                 .then()
                 .spec(MovieSpec.jsonSuccess());
     }
+
+    public void deleteComment(int movieId, AuthResponse user) {
+        given()
+                .spec(MovieSpec.baseRequestSpec())
+                .pathParam("id", movieId)
+                .header("Authorization", "Bearer " + user.getAccessToken())
+                .when()
+                .delete("/movies/{id}/reviews")
+                .then()
+                .spec(MovieSpec.jsonSuccess());
+    }
+
+    public Reviews createComment(int movieId, AuthResponse user, ReviewsForPost comment) {
+        return given()
+                .spec(MovieSpec.baseRequestSpec())
+                .body(comment)
+                .pathParam("id", movieId)
+                .header("Authorization", "Bearer " + user.getAccessToken())
+                .when()
+                .post("/movies/{id}/reviews")
+                .then()
+                .spec(MovieSpec.createSuccess())
+                .log().all()
+                .extract().as(Reviews.class);
+    }
+
 }
