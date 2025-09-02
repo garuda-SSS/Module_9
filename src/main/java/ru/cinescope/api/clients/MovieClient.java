@@ -55,7 +55,7 @@ public class MovieClient {
                 .spec(MovieSpec.jsonSuccess());
     }
 
-    public Reviews createComment(int movieId, AuthResponse user, ReviewsForPost comment) {
+    public Reviews createComment(int movieId, AuthResponse user, ReviewsRequest comment) {
         return given()
                 .spec(MovieSpec.baseRequestSpec())
                 .body(comment)

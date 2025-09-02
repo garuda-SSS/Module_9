@@ -28,7 +28,7 @@ public class MovieSteps {
     }
 
     @Step("Создаем комментарий")
-    public Reviews createComment(int movieId, AuthResponse user, ReviewsForPost comment) {
+    public Reviews createComment(int movieId, AuthResponse user, ReviewsRequest comment) {
         return movie.createComment(movieId, user, comment);
     }
 }
