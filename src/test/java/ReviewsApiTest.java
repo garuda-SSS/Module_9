@@ -30,7 +30,7 @@ public class ReviewsApiTest {
 
 
     @Test
-    @Tag("smoke")
+    @Tag("api")
     @DisplayName("Создание коммента")
     public void createComment() {
         Reviews postComment = movieSteps.createComment(movieNumber, adminUser, comment);
