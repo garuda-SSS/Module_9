@@ -18,7 +18,7 @@ public class ReviewsApiTest {
     private static AuthResponse adminUser;
     private static final String textOfComment = "Енотт";
     private static final int rateOfComment = 5;
-    private static final int movieNumber = 93;
+    private static final int movieNumber = 56;
 
 
     @BeforeAll
