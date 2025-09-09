@@ -1,7 +1,4 @@
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import ru.cinescope.api.dto.AuthResponse;
 import ru.cinescope.api.dto.Reviews;
 import ru.cinescope.api.dto.ReviewsRequest;
@@ -33,6 +30,7 @@ public class ReviewsApiTest {
 
 
     @Test
+    @Tag("smoke")
     @DisplayName("Создание коммента")
     public void createComment() {
         Reviews postComment = movieSteps.createComment(movieNumber, adminUser, comment);

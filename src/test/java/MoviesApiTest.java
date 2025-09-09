@@ -1,9 +1,5 @@
 import io.qameta.allure.Allure;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import ru.cinescope.api.dto.*;
 import ru.cinescope.api.steps.MovieSteps;
 import ru.cinescope.api.steps.UserSteps;
@@ -54,6 +50,10 @@ public class MoviesApiTest {
     }
 
     @Test
+    @Tags({
+            @Tag("smoke"),
+            @Tag("api")
+    })
     @DisplayName("Тест поиска фильма по ID")
     public void filmById() {
         MovieResponse film = movieSteps.findMovieById(1, adminUser);
@@ -65,6 +65,10 @@ public class MoviesApiTest {
 
 
     @Test
+    @Tags({
+            @Tag("smoke"),
+            @Tag("api")
+    })
     @DisplayName("Тест публикации фильма")
     public void createFilm() {
 
