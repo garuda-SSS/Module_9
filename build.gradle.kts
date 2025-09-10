@@ -64,7 +64,11 @@ dependencies {
 }
 
 tasks.test {
-    useJUnitPlatform()
+    useJUnitPlatform() {
+        if (project.hasProperty("tags")) {
+            includeTags(project.property("tags") as String)
+        }
+    }
 }
 
 publishing {
